@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rokain - Site em Construção">
+    <title>Rokain - Em Breve</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/src/img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/src/img/android-chrome-512x512.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/src/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/src/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/src/img/favicon-32x32.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <link rel="stylesheet" href="./src/css/styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader-wrapper" id="loader">
+        <div class="loader-content">
+            <div class="logo-loader">ROKAIN</div>
+            <div class="spinner-container">
+                <div class="spinner"></div>
+                <div class="spinner-inner"></div>
+            </div>
+            <div class="loading-text">CARREGANDO</div>
+            <div class="loading-percentage" id="loadingPercentage">0%</div>
+        </div>
+    </div>
+ 
+    <!-- Grid Background -->
+    <div class="grid-background"></div>
+
+    <!-- Stars -->
+    <div class="stars" id="starsContainer"></div>
+
+    <!-- Background Animation -->
+    <div class="background-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="content">
+            <h1 class="main-logo">ROKAIN</h1>
+            <p class="subtitle">Inovação • Tecnologia • Futuro</p>
+            
+            <br>
+            
+
+            <!-- Counter Section -->
+            <div class="counter-section">
+                <div class="counter-grid">
+                    <div class="counter-item">
+                        <div class="counter-number" data-target="100">0</div>
+                        <div class="counter-label">Dias</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number" data-target="24">0</div>
+                        <div class="counter-label">Horas</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number" data-target="60">0</div>
+                        <div class="counter-label">Minutos</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number" data-target="60">0</div>
+                        <div class="counter-label">Segundos</div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="coming-soon">Lançamento em Breve</p>
+
+            <!-- Newsletter Section -->
+            <div class="newsletter-section">
+                <h3 class="newsletter-title">Seja notificado sobre o lançamento</h3>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input 
+                        type="email" 
+                        class="newsletter-input" 
+                        placeholder="Seu melhor e-mail"
+                        required
+                    >
+                    <button type="submit" class="newsletter-btn">
+                        <i class="fas fa-paper-plane"></i> Notifique-me
+                    </button>
+                </form>
+            </div>
+
+            
+            <div class="social-links">
+                <a href="#" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" aria-label="Twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script src="./src/js/scritp.js"></script>
+</body>
+</html>
