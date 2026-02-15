@@ -2,6 +2,46 @@
 const safe = (q) => document.querySelector(q);
 const safeAll = (q) => document.querySelectorAll(q);
 
+// ================= LAUNCH DATE =================
+const LAUNCH_DATE = new Date("2027-01-01T00:00:00");
+
+// ================= REAL SERVER COUNTDOWN =================
+async function startRealCountdown() {
+  try {
+    const res = await fetch("/server-time");
+    const data = await res.json();
+
+    const serverStart = performance.now();
+    const serverNow = parseFloat(data.timestamp) * 1000;
+
+    function update() {
+      const now = serverNow + (performance.now() - serverStart);
+      const diff = LAUNCH_DATE - now;
+
+      if (diff <= 0) return;
+
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor(diff / 3600000) % 24;
+      const minutes = Math.floor(diff / 60000) % 60;
+      const seconds = Math.floor(diff / 1000) % 60;
+
+      const nums = safeAll(".counter-number");
+      if (nums.length >= 4) {
+        nums[0].textContent = days;
+        nums[1].textContent = hours;
+        nums[2].textContent = minutes;
+        nums[3].textContent = seconds;
+      }
+    }
+
+    update();
+    setInterval(update, 1000);
+
+  } catch (e) {
+    console.error("Countdown erro:", e);
+  }
+}
+
 // ================= LOADER =================
 let percentage = 0;
 const percentageElement = safe("#loadingPercentage");
@@ -15,30 +55,11 @@ if (percentageElement && loaderElement) {
       clearInterval(loadingInterval);
       setTimeout(() => {
         loaderElement.classList.add("hidden");
-        initializeCounters();
+        startRealCountdown();
       }, 500);
     }
     percentageElement.textContent = Math.floor(percentage) + "%";
   }, 150);
-}
-
-// ================= COUNTERS =================
-function initializeCounters() {
-  const counters = safeAll(".counter-number");
-  counters.forEach((counter) => {
-    const target = parseInt(counter.dataset.target);
-    let current = 0;
-
-    const update = () => {
-      current += target / 120;
-      if (current < target) {
-        counter.textContent = Math.floor(current);
-        requestAnimationFrame(update);
-      } else counter.textContent = target;
-    };
-
-    update();
-  });
 }
 
 // ================= STARS =================
@@ -72,38 +93,16 @@ function createParticles() {
 createParticles();
 
 // ================= SOCIAL LINKS =================
-safeAll(".social-links a").forEach((link) => {
+safeAll(".social-links a").forEach(link => {
   link.addEventListener("click", e => {
     e.preventDefault();
     window.open(link.href, "_blank");
   });
 });
 
-// ================= RIPPLE =================
-function createRipple(e) {
-  const r = document.createElement("div");
-  r.style.cssText = `
-    position:fixed;
-    left:${e.clientX}px;
-    top:${e.clientY}px;
-    width:5px;height:5px;
-    background:rgba(0,217,255,.6);
-    border-radius:50%;
-    transform:translate(-50%,-50%);
-    animation:rippleExpand .6s;
-    z-index:9999;
-  `;
-  document.body.appendChild(r);
-  setTimeout(()=>r.remove(),600);
-}
-
 // ================= NEWSLETTER =================
 const newsletter = safe("#newsletterForm");
-if (newsletter) {
-  newsletter.addEventListener("submit", e => {
-    e.preventDefault();
-  });
-}
+if (newsletter) newsletter.addEventListener("submit", e => e.preventDefault());
 
 // ================= PARALLAX =================
 document.addEventListener("mousemove", e => {
