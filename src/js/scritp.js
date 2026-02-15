@@ -1,322 +1,150 @@
-// Loading Animation with Percentage
+// ================= SAFE SELECTORS =================
+const safe = (q) => document.querySelector(q);
+const safeAll = (q) => document.querySelectorAll(q);
+
+// ================= LOADER =================
 let percentage = 0;
-const percentageElement = document.getElementById("loadingPercentage");
-const loaderElement = document.getElementById("loader");
+const percentageElement = safe("#loadingPercentage");
+const loaderElement = safe("#loader");
 
-const loadingInterval = setInterval(() => {
-  percentage += Math.random() * 15;
-  if (percentage >= 100) {
-    percentage = 100;
-    clearInterval(loadingInterval);
-    setTimeout(() => {
-      loaderElement.classList.add("hidden");
-      initializeCounters();
-    }, 500);
-  }
-  percentageElement.textContent = Math.floor(percentage) + "%";
-}, 150);
+if (percentageElement && loaderElement) {
+  const loadingInterval = setInterval(() => {
+    percentage += Math.random() * 15;
+    if (percentage >= 100) {
+      percentage = 100;
+      clearInterval(loadingInterval);
+      setTimeout(() => {
+        loaderElement.classList.add("hidden");
+        initializeCounters();
+      }, 500);
+    }
+    percentageElement.textContent = Math.floor(percentage) + "%";
+  }, 150);
+}
 
-// Counter Animation
+// ================= COUNTERS =================
 function initializeCounters() {
-  const counters = document.querySelectorAll(".counter-number");
+  const counters = safeAll(".counter-number");
   counters.forEach((counter) => {
-    const target = parseInt(counter.getAttribute("data-target"));
-    const duration = 2000;
-    const increment = target / (duration / 16);
+    const target = parseInt(counter.dataset.target);
     let current = 0;
 
-    const updateCounter = () => {
-      current += increment;
+    const update = () => {
+      current += target / 120;
       if (current < target) {
         counter.textContent = Math.floor(current);
-        requestAnimationFrame(updateCounter);
-      } else {
-        counter.textContent = target;
-        // Start countdown for seconds
-        if (
-          counter.parentElement.querySelector(".counter-label").textContent ===
-          "Segundos"
-        ) {
-          startCountdown();
-        }
-      }
+        requestAnimationFrame(update);
+      } else counter.textContent = target;
     };
-    updateCounter();
+
+    update();
   });
 }
 
-// Countdown for seconds
-function startCountdown() {
-  const secondsCounter = document.querySelector(
-    ".counter-item:last-child .counter-number",
-  );
-  setInterval(() => {
-    let currentValue = parseInt(secondsCounter.textContent);
-    currentValue = currentValue > 0 ? currentValue - 1 : 60;
-    secondsCounter.textContent = currentValue;
-  }, 1000);
-}
-
-// Create Stars
+// ================= STARS =================
 function createStars() {
-  const starsContainer = document.getElementById("starsContainer");
-  const starCount = 100;
+  const container = safe("#starsContainer");
+  if (!container) return;
 
-  for (let i = 0; i < starCount; i++) {
+  for (let i = 0; i < 100; i++) {
     const star = document.createElement("div");
     star.className = "star";
     star.style.left = Math.random() * 100 + "%";
     star.style.top = Math.random() * 100 + "%";
-    star.style.animationDelay = Math.random() * 3 + "s";
-    star.style.animationDuration = 2 + Math.random() * 3 + "s";
-    starsContainer.appendChild(star);
+    container.appendChild(star);
   }
 }
-
 createStars();
 
-// Create Enhanced Particles
+// ================= PARTICLES =================
 function createParticles() {
-  const particlesContainer = document.getElementById("particles");
-  const particleCount = 60;
+  const container = safe("#particles");
+  if (!container) return;
 
-  for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement("div");
-    particle.className = "particle";
-
-    const startX = Math.random() * window.innerWidth;
-    const startY = Math.random() * window.innerHeight;
-    const endX = (Math.random() - 0.5) * 300;
-    const endY = (Math.random() - 0.5) * 300;
-
-    particle.style.left = startX + "px";
-    particle.style.top = startY + "px";
-    particle.style.setProperty("--tx", endX + "px");
-    particle.style.setProperty("--ty", endY + "px");
-    particle.style.animationDelay = Math.random() * 20 + "s";
-    particle.style.animationDuration = 15 + Math.random() * 10 + "s";
-
-    particlesContainer.appendChild(particle);
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    p.style.left = Math.random() * innerWidth + "px";
+    p.style.top = Math.random() * innerHeight + "px";
+    container.appendChild(p);
   }
 }
-
 createParticles();
 
-// Enhanced Social Links Hover
-document.querySelectorAll(".social-links a").forEach((link) => {
-  link.addEventListener("mouseenter", function (e) {
-    this.style.transform =
-      "translateY(-8px) scale(1.2) rotate(" +
-      (Math.random() * 20 - 10) +
-      "deg)";
-  });
-
-  link.addEventListener("mouseleave", function () {
-    this.style.transform = "translateY(0) scale(1) rotate(0deg)";
-  });
-
-  link.addEventListener("click", function (e) {
+// ================= SOCIAL LINKS =================
+safeAll(".social-links a").forEach((link) => {
+  link.addEventListener("click", e => {
     e.preventDefault();
-    createRipple(e);
-
-    window.open(this.href, "_blank");
+    window.open(link.href, "_blank");
   });
 });
 
-// Ripple Effect
+// ================= RIPPLE =================
 function createRipple(e) {
-  const ripple = document.createElement("div");
-  ripple.style.position = "fixed";
-  ripple.style.left = e.clientX + "px";
-  ripple.style.top = e.clientY + "px";
-  ripple.style.width = "5px";
-  ripple.style.height = "5px";
-  ripple.style.borderRadius = "50%";
-  ripple.style.background = "rgba(0, 217, 255, 0.6)";
-  ripple.style.transform = "translate(-50%, -50%)";
-  ripple.style.pointerEvents = "none";
-  ripple.style.animation = "rippleExpand 0.6s ease-out";
-  ripple.style.zIndex = "9999";
-
-  document.body.appendChild(ripple);
-
-  setTimeout(() => ripple.remove(), 600);
+  const r = document.createElement("div");
+  r.style.cssText = `
+    position:fixed;
+    left:${e.clientX}px;
+    top:${e.clientY}px;
+    width:5px;height:5px;
+    background:rgba(0,217,255,.6);
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    animation:rippleExpand .6s;
+    z-index:9999;
+  `;
+  document.body.appendChild(r);
+  setTimeout(()=>r.remove(),600);
 }
 
-// Add ripple animation
-const style = document.createElement("style");
-style.textContent = `
-            @keyframes rippleExpand {
-                to {
-                    width: 200px;
-                    height: 200px;
-                    opacity: 0;
-                }
-            }
-        `;
-document.head.appendChild(style);
-
-// Newsletter Form
-document
-  .getElementById("newsletterForm")
-  .addEventListener("submit", function (e) {
+// ================= NEWSLETTER =================
+const newsletter = safe("#newsletterForm");
+if (newsletter) {
+  newsletter.addEventListener("submit", e => {
     e.preventDefault();
-    const input = this.querySelector("input");
-    const button = this.querySelector("button");
-    const originalText = button.innerHTML;
-
-    button.innerHTML = '<i class="fas fa-check"></i> Inscrito!';
-    button.style.background = "linear-gradient(135deg, #00FF88, #00CC66)";
-
-    setTimeout(() => {
-      button.innerHTML = originalText;
-      button.style.background = "linear-gradient(135deg, #00D9FF, #0099FF)";
-      input.value = "";
-    }, 3000);
   });
-
-// Parallax Effect for Circles
-document.addEventListener("mousemove", (e) => {
-  const circles = document.querySelectorAll(".circle");
-  const x = e.clientX / window.innerWidth;
-  const y = e.clientY / window.innerHeight;
-
-  circles.forEach((circle, index) => {
-    const speed = (index + 1) * 20;
-    const xMove = (x - 0.5) * speed;
-    const yMove = (y - 0.5) * speed;
-    circle.style.transform = `translate(${xMove}px, ${yMove}px)`;
-  });
-});
-
-// Feature Cards Animation on Scroll
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: "0px 0px -100px 0px",
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.style.animation = "slideUp 0.6s ease forwards";
-    }
-  });
-}, observerOptions);
-
-document.querySelectorAll(".feature-card").forEach((card) => {
-  observer.observe(card);
-});
-
-// Easter Egg: Konami Code
-let konamiCode = [];
-const konamiPattern = [
-  "ArrowUp",
-  "ArrowUp",
-  "ArrowDown",
-  "ArrowDown",
-  "ArrowLeft",
-  "ArrowRight",
-  "ArrowLeft",
-  "ArrowRight",
-  "b",
-  "a",
-];
-
-document.addEventListener("keydown", (e) => {
-  konamiCode.push(e.key);
-  konamiCode = konamiCode.slice(-10);
-
-  if (konamiCode.join(",") === konamiPattern.join(",")) {
-    activateEasterEgg();
-  }
-});
-
-function activateEasterEgg() {
-  document.body.style.animation = "rainbow 2s linear infinite";
-  const eggStyle = document.createElement("style");
-  eggStyle.textContent = `
-                @keyframes rainbow {
-                    0% { filter: hue-rotate(0deg); }
-                    100% { filter: hue-rotate(360deg); }
-                }
-            `;
-  document.head.appendChild(eggStyle);
-
-  setTimeout(() => {
-    document.body.style.animation = "";
-  }, 10000);
 }
 
-// Mouse Trail Effect
-let mouseTrail = [];
-const maxTrailLength = 20;
-
-document.addEventListener("mousemove", (e) => {
-  const trail = document.createElement("div");
-  trail.style.position = "fixed";
-  trail.style.left = e.clientX + "px";
-  trail.style.top = e.clientY + "px";
-  trail.style.width = "4px";
-  trail.style.height = "4px";
-  trail.style.borderRadius = "50%";
-  trail.style.background = "rgba(0, 217, 255, 0.5)";
-  trail.style.pointerEvents = "none";
-  trail.style.zIndex = "9998";
-  trail.style.transform = "translate(-50%, -50%)";
-  trail.style.animation = "trailFade 0.5s ease-out forwards";
-
-  document.body.appendChild(trail);
-  mouseTrail.push(trail);
-
-  if (mouseTrail.length > maxTrailLength) {
-    const oldTrail = mouseTrail.shift();
-    oldTrail.remove();
-  }
+// ================= PARALLAX =================
+document.addEventListener("mousemove", e => {
+  safeAll(".circle").forEach((c,i)=>{
+    c.style.transform=`translate(${(e.clientX/innerWidth-.5)*(i+1)*20}px,${(e.clientY/innerHeight-.5)*(i+1)*20}px)`
+  });
 });
 
-const trailStyle = document.createElement("style");
-trailStyle.textContent = `
-            @keyframes trailFade {
-                to {
-                    opacity: 0;
-                    transform: translate(-50%, -50%) scale(2);
-                }
-            }
-        `;
-document.head.appendChild(trailStyle);
+// ================= OBSERVER =================
+safeAll(".feature-card").forEach(card=>{
+  new IntersectionObserver(e=>{
+    if(e[0].isIntersecting) card.style.animation="slideUp .6s forwards";
+  }).observe(card);
+});
 
-// Typing Effect for Message
-const message = document.querySelector(".message");
-const originalHTML = message.innerHTML;
-message.innerHTML = "";
-message.style.opacity = "1";
+// ================= TYPING EFFECT =================
+const message = safe(".message");
+if (message) {
+  const html = message.innerHTML;
+  message.innerHTML="";
+  let i=0;
 
-setTimeout(() => {
-  let charIndex = 0;
-  const typingSpeed = 30;
+  setTimeout(()=>{
+    const t=setInterval(()=>{
+      message.innerHTML=html.substring(0,i++);
+      if(i>html.length) clearInterval(t);
+    },30);
+  },1500);
+}
 
-  function typeText() {
-    if (charIndex < originalHTML.length) {
-      message.innerHTML = originalHTML.substring(0, charIndex + 1);
-      charIndex++;
-      setTimeout(typeText, typingSpeed);
-    }
+// ================= ICON GLOW =================
+setInterval(()=>{
+  const icon = safe(".icon-glow");
+  if(icon){
+    icon.style.color=["#00D9FF","#00FF88","#fff"][Math.floor(Math.random()*3)];
   }
+},2000);
 
-  typeText();
-}, 2500);
-
-// Random Color Shift for Icon
-setInterval(() => {
-  const icon = document.querySelector(".icon-glow");
-  const colors = ["#00D9FF", "#FF00FF", "#FFFFFF", "#00FF88", "#FFD700"];
-  const randomColor = colors[Math.floor(Math.random() * colors.length)];
-  icon.style.color = randomColor;
-}, 2000);
-
-const loader = document.getElementById("loader");
-
-setTimeout(() => {
-  loader.classList.add("hidden");
-  loader.style.pointerEvents = "none";
-}, 3000);
+// ================= FINAL LOADER =================
+if (loaderElement){
+  setTimeout(()=>{
+    loaderElement.classList.add("hidden");
+  },3000);
+}
