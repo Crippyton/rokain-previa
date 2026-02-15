@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>404 • Sistema Não Encontrado</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:Poppins,sans-serif;
+background:#02040a;
+color:#fff;
+overflow:hidden;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+canvas{
+position:absolute;
+inset:0;
+z-index:0;
+}
+
+.container{
+position:relative;
+z-index:10;
+text-align:center;
+max-width:640px;
+padding:40px;
+animation:fadeIn 1s ease;
+}
+
+h1{
+font-family:Orbitron;
+font-size:140px;
+background:linear-gradient(45deg,#00fff0,#0099ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 0 40px #00fff0;
+letter-spacing:10px;
+margin-bottom:90px;
+}
+
+h2{
+margin-top:-20px;
+font-weight:400;
+letter-spacing:4px;
+color:#ccc;
+}
+
+p{
+margin-top:15px;
+color:#aaa;
+}
+
+.actions{
+margin-top:40px;
+display:flex;
+gap:20px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.btn-404{
+padding:14px 36px;
+border-radius:50px;
+border:none;
+background:linear-gradient(135deg,#00d9ff,#0099ff);
+color:#000;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+letter-spacing:2px;
+display:flex;
+align-items:center;
+gap:8px;
+position:relative;
+overflow:hidden;
+}
+
+.btn-404.secondary{
+background:transparent;
+border:2px solid #00d9ff;
+color:#00d9ff;
+}
+
+.btn-404:hover{
+transform:translateY(-4px);
+box-shadow:0 0 25px rgba(0,217,255,.7);
+}
+
+.ripple{
+position:absolute;
+border-radius:50%;
+background:rgba(255,255,255,.6);
+transform:translate(-50%,-50%);
+animation:ripple .6s ease;
+}
+
+@keyframes ripple{
+to{width:300px;height:300px;opacity:0;}
+}
+
+.footer{
+margin-top:50px;
+font-size:12px;
+color:#444;
+letter-spacing:2px;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(30px);}
+to{opacity:1;transform:none;}
+}
+
+audio{display:none;}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<audio id="ambient" loop>
+<source src="https://assets.mixkit.co/sfx/preview/mixkit-futuristic-drone-ambient-2491.mp3">
+</audio>
+
+<div class="container">
+
+<h1>404</h1>
+<h2>SISTEMA NÃO LOCALIZADO</h2>
+
+<p>O recurso solicitado não existe ou foi removido.</p>
+
+<div class="actions">
+
+<button class="btn-404" onclick="location.href='https://rokain.com.br'">
+<i class="fas fa-home"></i> INÍCIO
+</button>
+
+<button class="btn-404 secondary" onclick="location.href='https://rokain.com.br/#contato'">
+<i class="fas fa-headset"></i> CONTATO
+</button>
+
+</div>
+
+<div class="footer">
+ROKAIN SYSTEMS • NEURAL INTERFACE OFFLINE 
+</div>
+
+</div>
+
+<script>
+
+/* PARTICULAS */
+
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+
+function resize(){
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+}
+resize();
+addEventListener("resize",resize);
+
+const dots=[];
+for(let i=0;i<90;i++){
+dots.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2+1,
+vx:(Math.random()-.5)*.4,
+vy:(Math.random()-.5)*.4
+});
+}
+
+function loop(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+dots.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fillStyle="#00ffe1";
+ctx.fill();
+p.x+=p.vx;p.y+=p.vy;
+if(p.x<0||p.x>canvas.width)p.vx*=-1;
+if(p.y<0||p.y>canvas.height)p.vy*=-1;
+});
+requestAnimationFrame(loop);
+}
+loop();
+
+/* AUDIO */
+
+const audio=document.getElementById("ambient");
+audio.volume=.12;
+window.addEventListener("click",()=>audio.play(),{once:true});
+
+/* RIPPLE */
+
+document.querySelectorAll(".btn-404").forEach(b=>{
+b.addEventListener("click",e=>{
+
+const ripple=document.createElement("span");
+ripple.className="ripple";
+ripple.style.left=e.offsetX+"px";
+ripple.style.top=e.offsetY+"px";
+b.appendChild(ripple);
+
+setTimeout(()=>ripple.remove(),600);
+
+});
+});
+
+</script>
+
+</body>
+</html>

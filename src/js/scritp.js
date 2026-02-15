@@ -110,6 +110,12 @@
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 createRipple(e);
+
+                // Navega para o href depois do efeito ripple (abre em nova aba)
+                const href = this.href;
+                setTimeout(() => {
+                    window.open(href, '_blank');
+                }, 250);
             });
         });
 
@@ -290,3 +296,10 @@
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
             icon.style.color = randomColor;
         }, 2000);
+
+        const loader = document.getElementById("loader");
+
+        setTimeout(() => {
+            loader.classList.add("hidden");
+            loader.style.pointerEvents = "none";
+        }, 3000);
