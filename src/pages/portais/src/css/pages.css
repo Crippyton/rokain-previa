@@ -1,0 +1,26 @@
+/* Estilo base para páginas internas */
+:root{ color-scheme: dark; }
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: rgba(255,255,255,.92);
+  background: linear-gradient(180deg, #0b1020, #0f1730);
+}
+
+.page{ max-width: 1100px; margin: 0 auto; padding: 18px 14px 40px; }
+
+.pageHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap: 12px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.pageHeader a{ color: rgba(255,255,255,.75); text-decoration:none; }
+.pageHeader a:hover{ color: rgba(255,255,255,.95); text-decoration:underline; }
+
+.card{ margin-top: 14px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06); border-radius: 16px; padding: 14px; }

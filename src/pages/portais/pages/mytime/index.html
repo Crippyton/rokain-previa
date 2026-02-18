@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MyTIME - Calculadora de Horário de Saída</title>
+  <link rel="stylesheet" href="../../src/css/mytime.css">
+</head>
+<body>
+  <header>
+    <h1>MyTIME - Calculadora de Horário de Saída</h1>
+    <p>Calcule sua <strong>hora de saída</strong> ou <strong>hora de início</strong> automaticamente, com base na jornada diária e no almoço.</p>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <div class="section-title">Modo de cálculo</div>
+      <div class="mode">
+        <label><input type="radio" name="mode" id="modeStart" checked> Informar <strong>hora de início</strong></label>
+        <label><input type="radio" name="mode" id="modeElapsed"> Informar <strong>tempo já trabalhado</strong></label>
+      </div>
+      <div class="help">Dica: no modo "tempo já trabalhado", informando, por exemplo, <code>04:50:10</code> e clicando em "Usar hora atual", a ferramenta calcula e exibe a <strong>hora em que você começou</strong>.</div>
+    </section>
+
+    <section class="card">
+      <div class="grid">
+        <div class="col-6" id="blockStart">
+          <label for="startTime">Hora de início</label>
+          <input id="startTime" type="time" step="1" />
+        </div>
+        <div class="col-6" id="blockElapsed" style="display:none">
+          <label for="elapsed">Tempo já trabalhado (HH:MM:SS)</label>
+          <input id="elapsed" type="text" placeholder="04:50:10" />
+          <div class="help">Aceita formatos <code>H:MM</code> ou <code>HH:MM:SS</code>.</div>
+          <div class="err" id="elapsedErr" style="display:none"></div>
+        </div>
+        <div class="col-4">
+          <label for="workHours">Horas de trabalho (por dia)</label>
+          <input id="workHours" type="number" min="1" max="12" value="8" />
+        </div>
+        <div class="col-4">
+          <label for="lunchMinutes">Almoço (minutos)</label>
+          <input id="lunchMinutes" type="number" min="0" max="180" value="60" />
+        </div>
+        <div class="col-4">
+          <label for="tz">Fuso horário</label>
+          <select id="tz"></select>
+        </div>
+        <div class="col-12 row" style="justify-content:space-between">
+          <div class="row" style="gap:8px">
+            <button class="btn primary" id="btnNow">Usar hora atual</button>
+            <button class="btn secondary" id="btnCalc">Calcular</button>
+          </div>
+          <div class="row small">
+            <label><input type="checkbox" id="autoUpdate" checked> Atualizar automaticamente</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat">
+        <span class="label">Início</span>
+        <span class="value" id="outStart">--:--:--</span>
+      </div>
+      <div class="stat">
+        <span class="label">Saída prevista</span>
+        <span class="value" id="outEnd">--:--:--</span>
+      </div>
+      <div class="stat">
+        <span class="label">Tempo trabalhado até agora</span>
+        <span class="value" id="outWorked">--:--:--</span>
+      </div>
+      <div class="stat">
+        <span class="label">Tempo restante</span>
+        <span class="value" id="outRemaining">--:--:--</span>
+      </div>
+      <div class="progress" aria-label="Progresso da jornada"><span id="bar"></span></div>
+      <p class="small" id="note"></p>
+    </section>
+
+    <section class="card">
+      <h3 style="margin-top:0">Como funciona</h3>
+      <ol class="small">
+        <li>Escolha o <strong>Modo de cálculo</strong>: por <em>início</em> ou por <em>tempo trabalhado</em>.</li>
+        <li>Use <em>Usar hora atual</em> para preencher automaticamente o campo correspondente.</li>
+        <li>Com <em>Atualizar automaticamente</em>, tudo é recalculado a cada segundo.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer><div class="small">Todo os direitos reservados - 2026.</div></footer>
+
+  <script src="../../src/js/mytime.js"></script>
+</body>
+
+</html>

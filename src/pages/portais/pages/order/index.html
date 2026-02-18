@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Deduplicador de BAT - Manter originais</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="../../src/css/order.css">
+</head>
+<body>
+  <header>
+    <h1>Deduplicador de arquivos BAT</h1>
+    <p>Mantenha somente os <strong>originais sem numeração</strong>. Cópias como <code>nome (1).bat</code>, <code>nome (2).bat</code>… serão descartadas (ou tratadas conforme opção).</p>
+  </header>
+
+  <main class="app">
+    <section class="card uploader">
+      <div class="dropzone" id="dropzone" tabindex="0" aria-label="Área para arrastar e soltar arquivos BAT">
+        <h3>Arraste seus <code>.bat</code> aqui</h3>
+        <p>ou</p>
+        <div class="drop-actions">
+          <label class="btn primary" for="fileInput">Selecionar arquivos</label>
+          <button class="btn ghost" id="clearBtn" type="button">Limpar</button>
+        </div>
+        <input id="fileInput" type="file" accept=".bat" multiple />
+      </div>
+
+      <div class="options">
+        <div class="opt">
+          <input type="checkbox" id="keepWhenNoOriginal" checked />
+          <div>
+            <label for="keepWhenNoOriginal">Se não existir original, manter a cópia numerada (renomeando para o nome base)</label>
+            <small>Ex.: se existir apenas <code>script (1).bat</code>, o ZIP final terá <code>script.bat</code>.</small>
+          </div>
+        </div>
+        <div class="opt">
+          <input type="checkbox" id="caseInsensitive" checked />
+          <div>
+            <label for="caseInsensitive">Comparação de nomes sem diferenciar maiúsculas/minúsculas</label>
+            <small>Recomendado no Windows.</small>
+          </div>
+        </div>
+        <div class="opt">
+          <input type="checkbox" id="previewRemoved" checked />
+          <div>
+            <label for="previewRemoved">Exibir também a lista de removidos</label>
+            <small>Ajuda na conferência antes de baixar.</small>
+          </div>
+        </div>
+
+        <div class="summary" id="summary">
+          <span class="chip"><span class="dot total"></span><strong>Total:</strong> <span id="totalCount">0</span></span>
+          <span class="chip"><span class="dot keep"></span><strong>Mantidos:</strong> <span id="keptCount">0</span></span>
+          <span class="chip"><span class="dot remove"></span><strong>Removidos:</strong> <span id="removedCount">0</span></span>
+        </div>
+
+        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn" id="analyzeBtn" type="button">Analisar</button>
+          <button class="btn primary" id="downloadZipBtn" type="button" disabled>Baixar ZIP (originais)</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="results">
+      <div>
+        <h3>Originais mantidos</h3>
+        <ul class="list" id="keptList"></ul>
+      </div>
+      <div id="removedPanel">
+        <h3>Removidos (cópias)</h3>
+        <ul class="list" id="removedList"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <small>Dica: os nomes no padrão <code>arquivo (n).bat</code> são detectados por regex. Ajuste se seu padrão for diferente.</small>
+  </footer>
+
+  <!-- JSZip para gerar o ZIP localmente -->
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js" integrity="sha256-UU7y3rV1VZk36xw6CYAiQG9ReQ9+u6n9e3q0UR9Mypw=" crossorigin="anonymous"></script>
+  <script src="../../src/js/order.js"></script>
+</body>
+</html>
