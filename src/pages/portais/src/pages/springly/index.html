@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Springly - SpringBoot Config Generator</title>
+<link rel="icon" type="image/png" sizes="16x16"  href="/src/pages/portais/src/pages/springly/img/favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="/src/pages/portais/src/pages/springly/springly.css">
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">
+        <img src="/src/pages/portais/src/pages/springly/img/logo.png" alt="Springly" class="logo-img">
+      </div>
+    </div>
+    <div class="header-right">
+      <a href="/src/pages/portais/src/pages/springly/docs.html" class="nav-docs-link">
+        <i class="fa-solid fa-book-open"></i> Documentation
+      </a>
+      <div class="header-badge"><i class="fa-solid fa-circle-dot fa-xs"></i> MIDDLEWARE TOOLS v1.0</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-tag"><i class="fa-solid fa-wand-magic-sparkles fa-sm"></i> Gerador de Configurações</div>
+    <h1>Criação de <span class="accent">Aplicações</span><br><span class="accent2">Java SpringBoot</span></h1>
+    <p>Gere automaticamente todos os arquivos de configuração necessários para deploy em servidores Linux.</p>
+    <button class="btn-create" onclick="openModal()">
+      <i class="fa-solid fa-plus"></i>
+      Criar Nova Aplicação
+    </button>
+  </div>
+
+  <!-- Results Section -->
+  <div id="results-section">
+    <div class="results-header">
+      <div class="results-title">
+        <i class="fa-solid fa-boxes-stacked"></i>
+        Arquivos Gerados — <span id="res-appname">App</span>
+      </div>
+      <div class="results-actions">
+        <button class="btn-new" onclick="openModal()">
+          <i class="fa-solid fa-plus"></i> Nova Aplicação
+        </button>
+        <button class="btn-export-all" onclick="exportAll()">
+          <i class="fa-solid fa-file-zipper"></i> Exportar Todos
+        </button>
+      </div>
+    </div>
+
+    <!-- App Info Card -->
+    <div class="app-info-card" id="app-info-card"></div>
+
+    <!-- Tabs -->
+    <div class="tabs-container">
+      <div class="tabs-scroll" id="tabs-row"></div>
+    </div>
+    <div id="tab-panels"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">
+        <i class="fa-brands fa-java"></i>
+        <span>Nova</span> Aplicação SpringBoot
+      </div>
+      <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- Seção: Aplicação -->
+      <div class="form-section">
+        <div class="form-section-title">
+          <i class="fa-solid fa-cube"></i> Informações da Aplicação
+        </div>
+        <div class="form-grid cols-1">
+          <div class="field">
+            <label><i class="fa-solid fa-tag fa-xs"></i> Nome da Aplicação <span class="req">*</span></label>
+            <input type="text" id="f-appname" placeholder="ex: relatorio-lote-habitacional-api">
+            <div class="hint"><i class="fa-solid fa-circle-info fa-xs"></i> Usado como nome do diretório, .jar, service e logrotate</div>
+            <br>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label><i class="fa-solid fa-route fa-xs"></i> Contexto da Aplicação <span class="req">*</span></label>
+            <input type="text" id="f-context" placeholder="ex: /sin/relatorio-lote-habitacional-api">
+            <div class="hint"><i class="fa-solid fa-circle-info fa-xs"></i> Path do contexto (ex: /sin, /fin, /rh)</div>
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-plug fa-xs"></i> Porta <span class="req">*</span></label>
+            <input type="text" id="f-port" placeholder="ex: 7017">
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção: Java -->
+      <div class="form-section">
+        <div class="form-section-title">
+          <i class="fa-brands fa-java"></i> Configuração do Java
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label><i class="fa-solid fa-folder-open fa-xs"></i> JAVA_HOME (caminho JDK) <span class="req">*</span></label>
+            <input type="text" id="f-javahome" placeholder="ex: /opt/jdk/jdk-17.0.8">
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-memory fa-xs"></i> Memória Mínima (Xms)</label>
+            <input type="text" id="f-xms" placeholder="ex: 128m" value="128m">
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-memory fa-xs"></i> Memória Máxima (Xmx)</label>
+            <input type="text" id="f-xmx" placeholder="ex: 256m" value="256m">
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-recycle fa-xs"></i> Garbage Collector</label>
+            <select id="f-gc">
+              <option value="-XX:+UseG1GC">G1GC (Recomendado)</option>
+              <option value="-XX:+UseZGC">ZGC</option>
+              <option value="-XX:+UseParallelGC">ParallelGC</option>
+              <option value="">Nenhum</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção: Servidores -->
+      <div class="form-section">
+        <div class="form-section-title">
+          <i class="fa-solid fa-server"></i> Servidores
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label><i class="fa-solid fa-flask fa-xs"></i> Servidor Aceite <span class="req">*</span></label>
+            <input type="text" id="f-srv-act" placeholder="ex: AWSAPPINTXS03A">
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-circle-check fa-xs"></i> Servidor Produção 1 <span class="req">*</span></label>
+            <input type="text" id="f-srv-prd1" placeholder="ex: SRVAPPINTC03">
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-circle-check fa-xs"></i> Servidor Produção 2</label>
+            <input type="text" id="f-srv-prd2" placeholder="ex: SRVAPPINTC04">
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-folder-tree fa-xs"></i> Caminho Base (APP_HOME)</label>
+            <input type="text" id="f-basepath" placeholder="ex: /tms/srvsin01/springboot">
+            <div class="hint"><i class="fa-solid fa-circle-info fa-xs"></i> Sem a pasta da aplicação no final</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção: Spring Cloud -->
+      <div class="form-section">
+        <div class="form-section-title">
+          <i class="fa-solid fa-cloud"></i> Spring Cloud &amp; Graylog
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label><i class="fa-solid fa-link fa-xs"></i> Config URI Aceite</label>
+            <input type="text" id="f-config-act" placeholder="ex: http://user:user@spring-cloud-act.xs3.com.br/config-server/" value="http://user:user@spring-cloud-act.xs3.com.br/config-server/">
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-link fa-xs"></i> Config URI Produção</label>
+            <input type="text" id="f-config-prd" placeholder="ex: http://user:pass@spring-cloud.xs3.com.br/config-server" value="http://user:kJ70hdw3@spring-cloud.xs3.com.br/config-server">
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-tower-broadcast fa-xs"></i> Graylog Host Aceite</label>
+            <input type="text" id="f-gray-act" placeholder="ex: graylog-act.xs3.com.br" value="graylog-act.xs3.com.br">
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-tower-broadcast fa-xs"></i> Graylog Host Produção</label>
+            <input type="text" id="f-gray-prd" placeholder="ex: graylog-prd.xs3.com.br" value="graylog-prd.xs3.com.br">
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-id-badge fa-xs"></i> Profile Aceite</label>
+            <input type="text" id="f-profile-act" placeholder="ex: actc" value="actc">
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-id-badge fa-xs"></i> Profile Produção</label>
+            <input type="text" id="f-profile-prd" placeholder="ex: prodxs3" value="prodxs3">
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção: VIPs -->
+      <div class="form-section">
+        <div class="form-section-title">
+          <i class="fa-solid fa-globe"></i> VIPs
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label><i class="fa-solid fa-flask fa-xs"></i> VIP Aceite <span class="req">*</span></label>
+            <input type="text" id="f-vip-act" placeholder="ex: servicos-aceiteint.minhaempresa.com.br">
+            <div class="hint"><i class="fa-solid fa-triangle-exclamation fa-xs"></i> Informe o endereço VIP correto do ambiente de aceite</div>
+          </div>
+          <div class="field">
+            <label><i class="fa-solid fa-circle-check fa-xs"></i> VIP Produção <span class="req">*</span></label>
+            <input type="text" id="f-vip-prd" placeholder="ex: servicos-int.minhaempresa.com.br">
+            <div class="hint"><i class="fa-solid fa-triangle-exclamation fa-xs"></i> Informe o endereço VIP correto do ambiente de produção</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção: Chamado -->
+      <div class="form-section">
+        <div class="form-section-title">
+          <i class="fa-solid fa-ticket"></i> Chamado
+        </div>
+        <div class="form-grid cols-1">
+          <div class="field">
+            <label><i class="fa-solid fa-hashtag fa-xs"></i> Número / Link do Chamado</label>
+            <input type="text" id="f-ticket" placeholder="ex: REQ-9725">
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /modal-body -->
+
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">
+        <i class="fa-solid fa-xmark"></i> Cancelar
+      </button>
+      <button class="btn-generate" onclick="generate()">
+        <i class="fa-solid fa-bolt"></i> Gerar Configurações
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CUSTOM ALERT ══════════════════════════════════════════════════════ -->
+<div class="alert-overlay" id="alert-overlay">
+  <div class="alert-box">
+    <div class="alert-header">
+      <div class="alert-icon-wrap">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <div class="alert-header-text">
+        <h3>Campos obrigatórios não preenchidos</h3>
+        <p>VALIDATION ERROR · SPRINGLY</p>
+      </div>
+    </div>
+    <div class="alert-body">
+      <p>Preencha os seguintes campos antes de continuar:</p>
+      <div class="alert-fields" id="alert-fields"></div>
+    </div>
+    <div class="alert-footer">
+      <button class="alert-btn-ok" onclick="closeAlert()">
+        <i class="fa-solid fa-arrow-left"></i> Voltar e corrigir
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="/src/pages/portais/src/pages/springly/springly.js"></script>
+</body>
+</html>

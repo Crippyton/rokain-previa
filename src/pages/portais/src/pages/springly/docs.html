@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Springly - Documentation</title>
+<link rel="icon" type="image/png" sizes="16x16"  href="/src/pages/portais/src/pages/springly/img/favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="/src/pages/portais/src/pages/springly/docs.css">
+<link rel="stylesheet" href="/src/pages/portais/src/pages/springly/springly.css">
+
+</head>
+<body>
+
+<!-- ═══ HEADER ════════════════════════════════════════════════════════════ -->
+<header>
+  <div class="header-inner">
+    <a href="/src/pages/portais/src/pages/springly/index.html" class="logo">
+      <div class="logo-icon">
+        <img src="/src/pages/portais/src/pages/springly/img/logo.png" alt="Springly" class="logo-img">
+      </div>
+    </a>
+    <div class="header-right">
+      <a href="/src/pages/portais/src/pages/springly/index.html" class="nav-back">
+        <i class="fa-solid fa-arrow-left"></i> Voltar ao App
+      </a>
+      <div class="header-badge"><i class="fa-solid fa-circle-dot fa-xs"></i> MIDDLEWARE TOOLS v1.0</div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ LAYOUT ════════════════════════════════════════════════════════════ -->
+<div class="docs-layout">
+
+  <!-- ── Sidebar ────────────────────────────────────────────────────────── -->
+  <aside class="docs-sidebar">
+
+    <div class="sidebar-section">
+      <div class="sidebar-label"><i class="fa-solid fa-circle-dot fa-xs"></i> Introdução</div>
+      <ul class="sidebar-nav">
+        <li><a href="#visao-geral" class="active"><i class="fa-solid fa-house"></i> Visão Geral</a></li>
+        <li><a href="#como-funciona"><i class="fa-solid fa-gear"></i> Como Funciona</a></li>
+        <li><a href="#requisitos"><i class="fa-solid fa-list-check"></i> Requisitos</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label"><i class="fa-solid fa-circle-dot fa-xs"></i> Guia de Uso</div>
+      <ul class="sidebar-nav">
+        <li><a href="#passo-a-passo"><i class="fa-solid fa-shoe-prints"></i> Passo a Passo</a></li>
+        <li><a href="#campos"><i class="fa-solid fa-table-list"></i> Referência de Campos</a></li>
+        <li><a href="#arquivos-gerados"><i class="fa-solid fa-boxes-stacked"></i> Arquivos Gerados</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label"><i class="fa-solid fa-circle-dot fa-xs"></i> Referência</div>
+      <ul class="sidebar-nav">
+        <li><a href="#start-sh"><i class="fa-brands fa-linux"></i> start.sh</a></li>
+        <li><a href="#stop-sh"><i class="fa-solid fa-stop"></i> stop.sh</a></li>
+        <li><a href="#systemctl"><i class="fa-solid fa-gear"></i> Systemctl</a></li>
+        <li><a href="#apache"><i class="fa-solid fa-server"></i> Apache</a></li>
+        <li><a href="#logrotate"><i class="fa-solid fa-rotate"></i> Logrotate</a></li>
+        <li><a href="#chamados"><i class="fa-solid fa-ticket"></i> Chamados</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label"><i class="fa-solid fa-circle-dot fa-xs"></i> Observações</div>
+      <ul class="sidebar-nav">
+        <li><a href="#boas-praticas"><i class="fa-solid fa-shield-halved"></i> Boas Práticas</a></li>
+        <li><a href="#permissoes"><i class="fa-solid fa-lock"></i> Permissões</a></li>
+      </ul>
+    </div>
+
+  </aside>
+
+  <!-- ── Main ───────────────────────────────────────────────────────────── -->
+  <main class="docs-main">
+
+    <!-- HERO -->
+    <div class="docs-hero">
+      <div class="docs-hero-tag"><i class="fa-solid fa-book-open"></i> Documentation</div>
+      <h1>Springly —<br><span>Guia de Utilização</span></h1>
+      <p>Manual completo para uso do gerador de configurações de aplicações Java SpringBoot em servidores Linux. Entenda cada campo, arquivo gerado e fluxo de deploy.</p>
+      <div class="docs-meta">
+        <div class="docs-meta-item"><i class="fa-solid fa-code-branch"></i> v1.0</div>
+        <div class="docs-meta-item"><i class="fa-solid fa-users"></i> Middleware / Operação</div>
+        <div class="docs-meta-item"><i class="fa-brands fa-java"></i> SpringBoot</div>
+        <div class="docs-meta-item"><i class="fa-brands fa-linux"></i> Linux</div>
+      </div>
+    </div>
+
+    <!-- ── 1. Visão Geral ──────────────────────────────────────────────── -->
+    <div class="docs-section" id="visao-geral">
+      <h2><i class="fa-solid fa-house"></i> Visão Geral</h2>
+      <div class="section-sub">Introdução · O que é o Springly</div>
+      <p>O <strong>Springly</strong> é uma ferramenta interna do time de Middleware/Operação que automatiza a criação de todos os arquivos de configuração necessários para o deploy de uma aplicação <strong>Java SpringBoot</strong> em servidores Linux.</p>
+      <p>Ao invés de criar manualmente cada arquivo — sujeito a erros de digitação e inconsistências entre ambientes — o Springly recebe as informações da aplicação, valida os campos obrigatórios e gera instantaneamente os templates prontos para uso, organizados por categoria e ambiente (Aceite e Produção).</p>
+      <div class="info-box tip">
+        <i class="fa-solid fa-lightbulb info-box-icon"></i>
+        <p><strong>Dica:</strong> Todos os arquivos gerados podem ser copiados individualmente com o botão <em>Copiar</em> ou baixados com o botão <em>Download</em>. Use <em>Exportar Todos</em> para baixar todos os arquivos de uma vez.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 2. Como Funciona ────────────────────────────────────────────── -->
+    <div class="docs-section" id="como-funciona">
+      <h2><i class="fa-solid fa-gear"></i> Como Funciona</h2>
+      <div class="section-sub">Fluxo · Geração de templates</div>
+      <p>O fluxo do Springly é simples e direto: você preenche um formulário com as informações da aplicação e o sistema substitui automaticamente os valores nos templates pré-definidos, gerando os arquivos corretos para cada ambiente.</p>
+
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Clique em "Criar Nova Aplicação"</h4>
+            <p>Na tela principal, acione o botão para abrir o formulário de cadastro da aplicação.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Preencha os dados da aplicação</h4>
+            <p>Informe nome, porta, contexto, JAVA_HOME, servidores de aceite/produção, VIPs e o número do chamado. Campos marcados com <span style="color:#ff4060">*</span> são obrigatórios.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Clique em "Gerar Configurações"</h4>
+            <p>O sistema valida os campos, gera todos os arquivos e exibe os resultados organizados em abas por categoria.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Copie ou baixe os arquivos gerados</h4>
+            <p>Navegue pelas abas (Aceite, Produção, Systemctl, Portal Logs, Apache, Logrotate, Chamados e Comandos) e use os botões de cópia e download para cada arquivo.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>Aplique nos servidores</h4>
+            <p>Use a aba <em>Comandos</em> como checklist de execução sequencial no servidor Linux. Ela contém todos os comandos de setup com permissões e configurações necessárias.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 3. Requisitos ───────────────────────────────────────────────── -->
+    <div class="docs-section" id="requisitos">
+      <h2><i class="fa-solid fa-list-check"></i> Requisitos</h2>
+      <div class="section-sub">Pré-requisitos · O que você precisa saber antes</div>
+      <p>Antes de utilizar o Springly, certifique-se de ter as seguintes informações em mãos:</p>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num"><i class="fa-solid fa-server" style="font-size:13px"></i></div>
+          <div class="step-body">
+            <h4>Acesso aos servidores de aplicação</h4>
+            <p>É necessário acesso SSH aos servidores de Aceite e Produção onde a aplicação será instalada.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num"><i class="fa-solid fa-plug" style="font-size:13px"></i></div>
+          <div class="step-body">
+            <h4>Número da porta disponível</h4>
+            <p>Consulte a planilha de cadastro de portas para identificar qual porta será utilizada. Use sempre a subsequente à última porta registrada.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num"><i class="fa-brands fa-java" style="font-size:13px"></i></div>
+          <div class="step-body">
+            <h4>Versão do JDK instalada no servidor</h4>
+            <p>Verifique o caminho exato do JDK no servidor (ex: <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">/opt/jdk/jdk-17.0.8</code>) para preencher o campo JAVA_HOME corretamente.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num"><i class="fa-solid fa-globe" style="font-size:13px"></i></div>
+          <div class="step-body">
+            <h4>Endereços VIP de aceite e produção</h4>
+            <p>Obtenha os endereços VIP corretos de cada ambiente junto à equipe de infraestrutura ou no chamado de referência.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 4. Passo a Passo ────────────────────────────────────────────── -->
+    <div class="docs-section" id="passo-a-passo">
+      <h2><i class="fa-solid fa-shoe-prints"></i> Passo a Passo Completo</h2>
+      <div class="section-sub">Guia · Criação de uma aplicação do zero</div>
+      <p>Abaixo está o fluxo completo de criação de uma aplicação SpringBoot utilizando o Springly, desde o recebimento do chamado até a execução dos comandos no servidor.</p>
+
+      <div class="info-box info">
+        <i class="fa-solid fa-circle-info info-box-icon"></i>
+        <p><strong>Contexto:</strong> O contexto da aplicação (ex: <code style="color:var(--accent2);font-family:'JetBrains Mono',monospace">/sin/relatorio-lote-habitacional-api</code>) determina em qual grupo de servidores ela será instalada. Analise o chamado para identificar o contexto correto antes de preencher o formulário.</p>
+      </div>
+
+      <div class="info-box warning">
+        <i class="fa-solid fa-triangle-exclamation info-box-icon"></i>
+        <p><strong>Atenção com os VIPs:</strong> Os campos de VIP Aceite e VIP Produção <strong>não possuem valor padrão</strong> — eles devem ser preenchidos manualmente com o endereço correto de cada ambiente. Nunca copie um VIP de outra aplicação sem confirmar.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 5. Campos ───────────────────────────────────────────────────── -->
+    <div class="docs-section" id="campos">
+      <h2><i class="fa-solid fa-table-list"></i> Referência de Campos</h2>
+      <div class="section-sub">Formulário · Descrição de cada campo</div>
+      <p>Todos os campos disponíveis no formulário de criação de aplicação estão descritos abaixo, com suas respectivas obrigatoriedades e exemplos.</p>
+
+      <table class="field-table">
+        <thead>
+          <tr>
+            <th>Campo</th>
+            <th>Status</th>
+            <th>Descrição</th>
+            <th>Exemplo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="field-name">Nome da Aplicação</td>
+            <td><span class="badge req">* Obrigatório</span></td>
+            <td>Nome usado para o diretório, arquivo .jar, .service e logrotate</td>
+            <td>relatorio-lote-habitacional-api</td>
+          </tr>
+          <tr>
+            <td class="field-name">Contexto</td>
+            <td><span class="badge req">* Obrigatório</span></td>
+            <td>Path completo do contexto da aplicação</td>
+            <td>/sin/relatorio-lote-habitacional-api</td>
+          </tr>
+          <tr>
+            <td class="field-name">Porta</td>
+            <td><span class="badge req">* Obrigatório</span></td>
+            <td>Porta da aplicação. Consultar planilha de cadastro</td>
+            <td>7017</td>
+          </tr>
+          <tr>
+            <td class="field-name">JAVA_HOME</td>
+            <td><span class="badge req">* Obrigatório</span></td>
+            <td>Caminho absoluto do JDK no servidor</td>
+            <td>/opt/jdk/jdk-17.0.8</td>
+          </tr>
+          <tr>
+            <td class="field-name">Memória Mínima (Xms)</td>
+            <td><span class="badge opt">Opcional</span></td>
+            <td>Memória inicial da JVM. Padrão: 128m</td>
+            <td>128m</td>
+          </tr>
+          <tr>
+            <td class="field-name">Memória Máxima (Xmx)</td>
+            <td><span class="badge opt">Opcional</span></td>
+            <td>Memória máxima da JVM. Padrão: 256m</td>
+            <td>256m</td>
+          </tr>
+          <tr>
+            <td class="field-name">Garbage Collector</td>
+            <td><span class="badge opt">Opcional</span></td>
+            <td>Algoritmo de GC. Recomendado: G1GC</td>
+            <td>G1GC</td>
+          </tr>
+          <tr>
+            <td class="field-name">Servidor Aceite</td>
+            <td><span class="badge req">* Obrigatório</span></td>
+            <td>Hostname do servidor de aceite</td>
+            <td>AWSAPPINTXS03A</td>
+          </tr>
+          <tr>
+            <td class="field-name">Servidor Produção 1</td>
+            <td><span class="badge req">* Obrigatório</span></td>
+            <td>Hostname do primeiro servidor de produção</td>
+            <td>SRVAPPINTC03</td>
+          </tr>
+          <tr>
+            <td class="field-name">Servidor Produção 2</td>
+            <td><span class="badge opt">Opcional</span></td>
+            <td>Hostname do segundo servidor de produção (usado no httpd.conf host2)</td>
+            <td>SRVAPPINTC04</td>
+          </tr>
+          <tr>
+            <td class="field-name">Caminho Base</td>
+            <td><span class="badge opt">Opcional</span></td>
+            <td>Diretório base onde a aplicação será instalada (sem o nome da app)</td>
+            <td>/tms/srvsin01/springboot</td>
+          </tr>
+          <tr>
+            <td class="field-name">Config URI Aceite</td>
+            <td><span class="badge opt">Opcional</span></td>
+            <td>Endereço do Spring Cloud Config Server de aceite</td>
+            <td>http://user:user@spring-cloud-act...</td>
+          </tr>
+          <tr>
+            <td class="field-name">Config URI Produção</td>
+            <td><span class="badge opt">Opcional</span></td>
+            <td>Endereço do Spring Cloud Config Server de produção</td>
+            <td>http://user:pass@spring-cloud...</td>
+          </tr>
+          <tr>
+            <td class="field-name">Graylog Host Aceite</td>
+            <td><span class="badge opt">Opcional</span></td>
+            <td>Hostname do Graylog de aceite para centralização de logs</td>
+            <td>graylog-act.xs3.com.br</td>
+          </tr>
+          <tr>
+            <td class="field-name">Graylog Host Produção</td>
+            <td><span class="badge opt">Opcional</span></td>
+            <td>Hostname do Graylog de produção</td>
+            <td>graylog-prd.xs3.com.br</td>
+          </tr>
+          <tr>
+            <td class="field-name">Profile Aceite</td>
+            <td><span class="badge opt">Opcional</span></td>
+            <td>Spring profile ativo no aceite</td>
+            <td>actc</td>
+          </tr>
+          <tr>
+            <td class="field-name">Profile Produção</td>
+            <td><span class="badge opt">Opcional</span></td>
+            <td>Spring profile ativo em produção</td>
+            <td>prodxs3</td>
+          </tr>
+          <tr>
+            <td class="field-name">VIP Aceite</td>
+            <td><span class="badge req">* Obrigatório</span></td>
+            <td>Endereço VIP do ambiente de aceite. Nunca pré-preenchido</td>
+            <td>servicos-aceiteint.empresa.com.br</td>
+          </tr>
+          <tr>
+            <td class="field-name">VIP Produção</td>
+            <td><span class="badge req">* Obrigatório</span></td>
+            <td>Endereço VIP do ambiente de produção. Nunca pré-preenchido</td>
+            <td>servicos-int.empresa.com.br</td>
+          </tr>
+          <tr>
+            <td class="field-name">Chamado</td>
+            <td><span class="badge opt">Opcional</span></td>
+            <td>Número ou link do chamado de referência (incluído nos templates de chamados)</td>
+            <td>REQ-9725</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 6. Arquivos Gerados ─────────────────────────────────────────── -->
+    <div class="docs-section" id="arquivos-gerados">
+      <h2><i class="fa-solid fa-boxes-stacked"></i> Arquivos Gerados</h2>
+      <div class="section-sub">Output · O que o Springly produz</div>
+      <p>Ao gerar as configurações, o Springly produz os seguintes arquivos, organizados em abas:</p>
+      <div class="output-grid">
+        <div class="output-card">
+          <div class="output-card-icon sh"><i class="fa-brands fa-linux"></i></div>
+          <h4>start.sh — Aceite</h4>
+          <p>Script de inicialização com profile de aceite e Spring Cloud de aceite</p>
+        </div>
+        <div class="output-card">
+          <div class="output-card-icon sh"><i class="fa-solid fa-stop"></i></div>
+          <h4>stop.sh — Aceite</h4>
+          <p>Script de parada da aplicação via leitura do pid.txt</p>
+        </div>
+        <div class="output-card">
+          <div class="output-card-icon sh"><i class="fa-brands fa-linux"></i></div>
+          <h4>start.sh — Produção</h4>
+          <p>Script de inicialização com profile de produção e Spring Cloud de produção</p>
+        </div>
+        <div class="output-card">
+          <div class="output-card-icon sh"><i class="fa-solid fa-stop"></i></div>
+          <h4>stop.sh — Produção</h4>
+          <p>Script de parada idêntico ao de aceite (path configurado por variável)</p>
+        </div>
+        <div class="output-card">
+          <div class="output-card-icon service"><i class="fa-solid fa-gear"></i></div>
+          <h4>springboot-app.service</h4>
+          <p>Unit file do systemd para inicialização automática no boot</p>
+        </div>
+        <div class="output-card">
+          <div class="output-card-icon php"><i class="fa-brands fa-php"></i></div>
+          <h4>Portal Logs PHP (Aceite)</h4>
+          <p>Página PHP do portal de logs apontando para o servidor de aceite</p>
+        </div>
+        <div class="output-card">
+          <div class="output-card-icon php"><i class="fa-brands fa-php"></i></div>
+          <h4>Portal Logs PHP (Produção)</h4>
+          <p>Página PHP do portal de logs apontando para os servidores de produção</p>
+        </div>
+        <div class="output-card">
+          <div class="output-card-icon conf"><i class="fa-solid fa-server"></i></div>
+          <h4>httpd.conf — Aceite</h4>
+          <p>Bloco de configuração Apache com Alias e Directory para aceite</p>
+        </div>
+        <div class="output-card">
+          <div class="output-card-icon conf"><i class="fa-solid fa-server"></i></div>
+          <h4>httpd.conf — Produção</h4>
+          <p>Bloco Apache com host1 → Servidor Produção 1 e host2 → Servidor Produção 2</p>
+        </div>
+        <div class="output-card">
+          <div class="output-card-icon log"><i class="fa-solid fa-rotate"></i></div>
+          <h4>Logrotate</h4>
+          <p>Configuração de rotação diária do console.out com compressão</p>
+        </div>
+        <div class="output-card">
+          <div class="output-card-icon txt"><i class="fa-solid fa-globe"></i></div>
+          <h4>Chamado — VIP</h4>
+          <p>Template de chamado para solicitação de criação das VIPs</p>
+        </div>
+        <div class="output-card">
+          <div class="output-card-icon txt"><i class="fa-solid fa-satellite-dish"></i></div>
+          <h4>Chamado — Monitoração</h4>
+          <p>Template de chamado para solicitação de monitoração da aplicação</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 7. start.sh ────────────────────────────────────────────────── -->
+    <div class="docs-section" id="start-sh">
+      <h2><i class="fa-brands fa-linux"></i> start.sh</h2>
+      <div class="section-sub">Referência · Script de inicialização</div>
+      <p>O <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">start.sh</code> é o script responsável por inicializar a aplicação. Ele configura o <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">JAVA_HOME</code>, define as opções da JVM via <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">JAVA_OPTS</code> e executa a aplicação em background com <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">nohup</code>.</p>
+      <p>A principal diferença entre o start.sh de <strong>Aceite</strong> e de <strong>Produção</strong> são os valores de <code style="color:var(--accent2);font-family:'JetBrains Mono',monospace">spring.profiles.active</code> e <code style="color:var(--accent2);font-family:'JetBrains Mono',monospace">spring.cloud.config.uri</code>.</p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <div class="code-block-title"><i class="fa-brands fa-linux"></i> start.sh — estrutura</div>
+        </div>
+        <pre>export JAVA_HOME=/opt/jdk/jdk-17.0.8
+export PATH=$JAVA_HOME/bin:$PATH
+
+JAVA_OPTS="-Xms128m -Xmx256m -XX:+UseG1GC \
+  -Dspring.profiles.active=&lt;profile&gt; \
+  -Dspring.cloud.config.uri=&lt;config-uri&gt; \
+  -Dgraylog.host=udp:&lt;graylog-host&gt; \
+  -Dgraylog.port=12201"
+
+APP_HOME=&lt;caminho-base&gt;/&lt;nome-app&gt;
+APP_NAME=&lt;nome-app&gt;.jar
+
+nohup java -server $JAVA_OPTS -jar $APP_HOME/$APP_NAME \
+  --server.port=&lt;porta&gt; > $APP_HOME/console.out 2>&1 &amp;</pre>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 8. stop.sh ────────────────────────────────────────────────── -->
+    <div class="docs-section" id="stop-sh">
+      <h2><i class="fa-solid fa-stop"></i> stop.sh</h2>
+      <div class="section-sub">Referência · Script de parada</div>
+      <p>O <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">stop.sh</code> localiza o processo da aplicação via <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">pid.txt</code> e encerra o processo com <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">kill</code>. Se após 3 segundos o processo ainda estiver ativo, executa um <code style="color:var(--red);font-family:'JetBrains Mono',monospace">kill -9</code>. O arquivo é idêntico para aceite e produção.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 9. Systemctl ───────────────────────────────────────────────── -->
+    <div class="docs-section" id="systemctl">
+      <h2><i class="fa-solid fa-gear"></i> Systemctl</h2>
+      <div class="section-sub">Referência · Unit file do systemd</div>
+      <p>O arquivo <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">springboot-&lt;nome-app&gt;.service</code> é responsável por configurar a aplicação como um serviço systemd, garantindo que ela seja iniciada automaticamente no boot do servidor.</p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <div class="code-block-title"><i class="fa-solid fa-gear"></i> .service — estrutura</div>
+        </div>
+        <pre>[Unit]
+Description=&lt;nome-app&gt;
+After=sshd.service
+
+[Service]
+Type=forking
+User=oracle
+WorkingDirectory=&lt;app-path&gt;
+ExecStart=&lt;app-path&gt;/start.sh
+ExecStop=&lt;app-path&gt;/stop.sh
+
+[Install]
+WantedBy=multi-user.target</pre>
+      </div>
+      <div class="info-box warning">
+        <i class="fa-solid fa-triangle-exclamation info-box-icon"></i>
+        <p>Após criar o arquivo .service, é obrigatório executar <code style="color:var(--yellow);font-family:'JetBrains Mono',monospace">systemctl enable</code> e <code style="color:var(--yellow);font-family:'JetBrains Mono',monospace">systemctl daemon-reload</code>, caso contrário a aplicação não iniciará automaticamente no boot.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 10. Apache ─────────────────────────────────────────────────── -->
+    <div class="docs-section" id="apache">
+      <h2><i class="fa-solid fa-server"></i> Apache (httpd.conf)</h2>
+      <div class="section-sub">Referência · Portal de Logs</div>
+      <p>Os blocos gerados para o <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">httpd.conf</code> criam aliases no Apache que permitem o acesso remoto aos logs da aplicação via o portal de logs interno.</p>
+      <p>Em <strong>Aceite</strong>: ambos os aliases (host1 e host2) apontam para o servidor de aceite, pois há apenas uma máquina.<br>
+      Em <strong>Produção</strong>: <code style="color:var(--accent2);font-family:'JetBrains Mono',monospace">host1</code> aponta para o Servidor Produção 1 e <code style="color:var(--accent2);font-family:'JetBrains Mono',monospace">host2</code> aponta para o Servidor Produção 2.</p>
+      <div class="info-box tip">
+        <i class="fa-solid fa-lightbulb info-box-icon"></i>
+        <p>Após editar o <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">httpd.conf</code>, reinicie o Apache com <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">systemctl restart httpd.service</code>.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 11. Logrotate ──────────────────────────────────────────────── -->
+    <div class="docs-section" id="logrotate">
+      <h2><i class="fa-solid fa-rotate"></i> Logrotate</h2>
+      <div class="section-sub">Referência · Rotação de logs</div>
+      <p>O arquivo de logrotate configura a rotação diária do <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">console.out</code> da aplicação, mantendo as últimas 3 rotações comprimidas na pasta <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">/logs</code>.</p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <div class="code-block-title"><i class="fa-solid fa-rotate"></i> logrotate — estrutura</div>
+        </div>
+        <pre>&lt;app-path&gt;/console.out {
+    daily
+    rotate 3
+    missingok
+    notifempty
+    compress
+    dateext
+    dateformat -%Y-%m-%d
+    olddir &lt;app-path&gt;/logs
+    copytruncate
+}</pre>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 12. Chamados ───────────────────────────────────────────────── -->
+    <div class="docs-section" id="chamados">
+      <h2><i class="fa-solid fa-ticket"></i> Templates de Chamados</h2>
+      <div class="section-sub">Referência · Abertura de chamados</div>
+      <p>O Springly gera dois templates de chamados prontos para serem abertos no sistema de helpdesk:</p>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num"><i class="fa-solid fa-globe" style="font-size:13px"></i></div>
+          <div class="step-body">
+            <h4>Chamado de Criação de VIP</h4>
+            <p>Solicita a criação das VIPs para os ambientes de aceite e produção, com os endpoints e contextos já preenchidos.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num"><i class="fa-solid fa-satellite-dish" style="font-size:13px"></i></div>
+          <div class="step-body">
+            <h4>Chamado de Monitoração</h4>
+            <p>Solicita a configuração da monitoração da aplicação com servidores, portas, instâncias e VIPs já preenchidos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 13. Boas Práticas ───────────────────────────────────────────── -->
+    <div class="docs-section" id="boas-praticas">
+      <h2><i class="fa-solid fa-shield-halved"></i> Boas Práticas</h2>
+      <div class="section-sub">Recomendações · Uso seguro da ferramenta</div>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num"><i class="fa-solid fa-check" style="font-size:13px"></i></div>
+          <div class="step-body">
+            <h4>Sempre preencha os VIPs manualmente</h4>
+            <p>Os campos de VIP não possuem valor padrão por segurança. Confirme o endereço correto antes de gerar os arquivos.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num"><i class="fa-solid fa-check" style="font-size:13px"></i></div>
+          <div class="step-body">
+            <h4>Consulte a planilha de portas</h4>
+            <p>Verifique sempre a última porta utilizada e use a subsequente para evitar conflitos entre aplicações.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num"><i class="fa-solid fa-check" style="font-size:13px"></i></div>
+          <div class="step-body">
+            <h4>Valide o caminho do JDK no servidor</h4>
+            <p>Execute <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">ls /opt/jdk/</code> no servidor antes de preencher o JAVA_HOME para garantir que a versão existe.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num"><i class="fa-solid fa-check" style="font-size:13px"></i></div>
+          <div class="step-body">
+            <h4>Use a aba "Comandos" como checklist</h4>
+            <p>Execute os comandos na ordem apresentada na aba Comandos. Não pule etapas, pois as permissões são dependentes umas das outras.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num"><i class="fa-solid fa-check" style="font-size:13px"></i></div>
+          <div class="step-body">
+            <h4>Remova o SNAPSHOT do nome do .jar</h4>
+            <p>Oriente o desenvolvedor a remover sufixos como <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">SNAPSHOT0001</code> do arquivo .jar antes do deploy, mantendo apenas <code style="color:var(--accent);font-family:'JetBrains Mono',monospace">nome-da-app.jar</code>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── 14. Permissões ─────────────────────────────────────────────── -->
+    <div class="docs-section" id="permissoes">
+      <h2><i class="fa-solid fa-lock"></i> Tabela de Permissões</h2>
+      <div class="section-sub">Referência · Permissões corretas de cada arquivo</div>
+      <p>A tabela abaixo descreve as permissões que devem ser aplicadas em cada arquivo e diretório da aplicação:</p>
+      <table class="field-table">
+        <thead>
+          <tr>
+            <th>Arquivo / Diretório</th>
+            <th>Dono</th>
+            <th>Permissão</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="field-name">/&lt;nome-app&gt; (diretório)</td><td>oracle</td><td>755</td></tr>
+          <tr><td class="field-name">console.out</td><td>oracle</td><td>777</td></tr>
+          <tr><td class="field-name">/logs (diretório)</td><td>oracle</td><td>777</td></tr>
+          <tr><td class="field-name">pid.txt</td><td>oracle</td><td>644</td></tr>
+          <tr><td class="field-name">&lt;nome-app&gt;.jar</td><td>oracle</td><td>755</td></tr>
+          <tr><td class="field-name">start.sh</td><td>oracle</td><td>755</td></tr>
+          <tr><td class="field-name">stop.sh</td><td>oracle</td><td>755</td></tr>
+          <tr><td class="field-name">springboot-&lt;app&gt;.service</td><td>root</td><td>640</td></tr>
+          <tr><td class="field-name">logs-Springboot-&lt;app&gt;.php</td><td>apache</td><td>777</td></tr>
+          <tr><td class="field-name">springboot-&lt;app&gt; (logrotate)</td><td>root</td><td>644</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<script src="/src/pages/portais/src/pages/springly/docs.js"></script>
+<script src="/src/pages/portais/src/pages/springly/springly.js"></script>
+</body>
+</html>
